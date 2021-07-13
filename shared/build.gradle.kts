@@ -35,6 +35,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(Dependencies.Coroutines.android)
+                implementation(Dependencies.Android.lifecycleViewModel)
             }
         }
         val androidTest by getting {

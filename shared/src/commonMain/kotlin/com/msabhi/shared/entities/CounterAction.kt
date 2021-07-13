@@ -1,6 +1,6 @@
-package com.msabhi.androidApp.counter.entities
+package com.msabhi.shared.entities
 
-import com.msabhi.shared.Action
+import com.msabhi.shared.common.Action
 
 sealed interface CounterAction : Action {
 

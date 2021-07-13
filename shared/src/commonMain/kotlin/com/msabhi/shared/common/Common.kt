@@ -1,4 +1,4 @@
-package com.msabhi.shared
+package com.msabhi.shared.common
 
 interface Action
 
