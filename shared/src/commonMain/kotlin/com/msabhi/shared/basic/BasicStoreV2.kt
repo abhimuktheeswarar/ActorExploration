@@ -7,7 +7,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
@@ -20,8 +20,12 @@ class BasicStoreV2<S : State>(
     private val actions: Channel<Action> =
         Channel(capacity = Channel.UNLIMITED, onBufferOverflow = BufferOverflow.SUSPEND)
 
-    private val mutableState = MutableStateFlow(initialState)
-    override val states: Flow<S> = mutableState
+    private val mutableState = MutableSharedFlow<S>(
+        replay = 1,
+        extraBufferCapacity = Int.MAX_VALUE,
+        onBufferOverflow = BufferOverflow.SUSPEND,
+    ).apply { tryEmit(initialState) }
+    val states: Flow<S> = mutableState
 
     init {
 
@@ -38,10 +42,10 @@ class BasicStoreV2<S : State>(
         actions.trySend(action)
     }
 
-    override fun state(): S = mutableState.value
+    override fun state(): S = mutableState.replayCache.last()
 
     private suspend fun handle(action: Action) {
-        val newState = reduce(action, mutableState.value)
+        val newState = reduce(action, mutableState.replayCache.last())
         mutableState.emit(newState)
     }
 }

@@ -3,13 +3,16 @@ package com.msabhi.androidApp.counter.ui
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.msabhi.androidApp.common.BaseViewModelFactory
-import com.msabhi.androidApp.common.ShowToastAction
 import com.msabhi.androidApp.databinding.ActivityCounterBinding
-import com.msabhi.shared.CounterViewModel
+import com.msabhi.shared.ShowToastAction
+import com.msabhi.shared.common.Action
+import com.msabhi.shared.common.name
+import com.msabhi.shared.counter.CounterViewModel
 import kotlinx.coroutines.flow.collect
 
 class CounterActivity : AppCompatActivity() {
@@ -49,11 +52,25 @@ class CounterActivity : AppCompatActivity() {
         lifecycleScope.launchWhenCreated {
             viewModel.states.collect(::setupViews)
         }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.actions.collect(::processEvents)
+        }
     }
 
     @SuppressLint("SetTextI18n")
     private fun setupViews(state: com.msabhi.shared.entities.CounterState) {
         Log.d(TAG, "setupViews = ${state.counter} | ${viewModel.state().counter}")
         binding.textCount.text = state.counter.toString()
+    }
+
+    private fun processEvents(action: Action) {
+        Log.d(TAG, "processEvents = ${action.name()}")
+        when (action) {
+
+            is ShowToastAction -> {
+                Toast.makeText(this, "A ${action.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }

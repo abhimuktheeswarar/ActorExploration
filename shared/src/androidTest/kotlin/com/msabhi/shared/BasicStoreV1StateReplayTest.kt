@@ -18,13 +18,11 @@ class BasicStoreV1StateReplayTest {
         repeat(1) {
             singleReplayTestIteration(N = 200, subscribers = 1)
         }
-        Unit
     }
 
     @Test
     fun replayLargeTest() = runBlocking {
         singleReplayTestIteration(N = 100_000, subscribers = 10)
-        Unit
     }
 
     /**

@@ -13,3 +13,6 @@ interface ErrorAction : Action {
 fun Action.name(): String = this::class.simpleName ?: "Action"
 
 interface State
+
+typealias ActionListener = (Action) -> Unit
+typealias StateChangeListener<S> = (S) -> Unit

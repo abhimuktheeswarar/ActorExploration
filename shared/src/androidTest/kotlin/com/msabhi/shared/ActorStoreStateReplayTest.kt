@@ -1,6 +1,6 @@
 package com.msabhi.shared
 
-import com.msabhi.shared.basic.BasicStoreV2
+import com.msabhi.shared.actor.ActorStore
 import com.msabhi.shared.common.counterStateReduce
 import com.msabhi.shared.entities.CounterAction
 import com.msabhi.shared.entities.CounterState
@@ -11,7 +11,7 @@ import org.junit.Test
 import kotlin.test.assertEquals
 
 
-class BasicStoreV2StateReplayTest {
+class ActorStoreStateReplayTest {
 
     @Test
     fun replayTest() = runBlocking {
@@ -35,7 +35,7 @@ class BasicStoreV2StateReplayTest {
     private suspend fun singleReplayTestIteration(N: Int, subscribers: Int) =
         withContext(Dispatchers.Default) {
             val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
-            val store = BasicStoreV2(CounterState(), ::counterStateReduce, scope)
+            val store = ActorStore(CounterState(), ::counterStateReduce, scope)
 
             launch {
                 repeat(N) {

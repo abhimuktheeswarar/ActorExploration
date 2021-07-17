@@ -1,4 +1,4 @@
-package com.msabhi.androidApp.common
+package com.msabhi.shared
 
 import com.msabhi.shared.common.EventAction
 

@@ -17,7 +17,7 @@ object Versions {
         const val activityKtx = "1.2.3"
         const val fragmentKtx = "1.3.5"
         const val constraintLayout = "2.0.4"
-        const val lifecycle = "2.3.1"
+        const val lifecycle = "2.4.0-alpha02"
         const val recyclerView = "1.2.0"
         const val materialComponents = "1.3.0"
 

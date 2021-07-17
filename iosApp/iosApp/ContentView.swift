@@ -32,7 +32,7 @@ struct ContentView_Previews: PreviewProvider {
 
 class CounterStateObservable: ObservableObject {
     
-    private lazy var viewModel = CounterViewModel(storeType: StoreType.basic)
+    private lazy var viewModel = CounterViewModel(storeType: StoreType.basicV2)
     
     @Published var  state : CounterState = CounterState(counter: 0)
     
